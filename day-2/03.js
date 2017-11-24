@@ -17,11 +17,21 @@ let server = http.createServer((req, res) => {
   }
   //输入的网址是127.0.0.1/images/logo.png
   //实际请求的是./static/images/logo.png
-  let fileurl = './' + path.normalize('static/' + pathname)
+  var fileurl = "./" + path.normalize("./static/" + pathname);
   // 获取文件拓展名
-  getMime(extname, mime => {
-    res.writeHead(200, mime)
-    res.end()
+  fs.readFile(fileurl, (err, data) => {
+    if(err) {
+      console.log('fail to read file ' + fileurl)
+      res.writeHead(404, {'content-type': 'text/html; charset=utf-8'})
+      res.end('<h1>404</h1><p>找不到该页面</p>')
+      return
+    }else {
+      let extname = path.extname(fileurl)
+      getMime(extname, mime => {
+        res.writeHead(200, {'content-type': mime})
+        res.end(data)
+      })
+    }
   })
 })
 
@@ -31,12 +41,12 @@ console.log('server created!')
 
 function getMime(extname, cb) {
   if(mime) {
-    cb(mime[extname])
+    cb(mime[extname] || 'text/plain')
     return
   }
   fs.readFile('./lib/mime.json', (err, data) => {
-    if(err) throw Error('read mime.json faile.')
+    if(err) throw Error('fail to read mime.json.')
     mime = JSON.parse(data)
-    cb(mime[extname])
+    cb(mime[extname] || 'text/plain')
   })
 }
