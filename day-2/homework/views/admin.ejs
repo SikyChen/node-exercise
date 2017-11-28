@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>admin</title>
+  <style>
+    form {
+      padding: 10px;
+      background: cadetblue;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <form action="/admin/mkdir" method="post">
+    <p>
+      新建相册
+    </p>
+    <p>
+      相册名称：
+      <input type="text" name="name">
+    </p>
+    <p>
+      <input type="submit" value="创建">
+    </p>
+  </form>
+  <form action="/admin/uploadPhoto" method="post" enctype="multipart/form-data">
+    <p>
+      上传图片
+    </p>
+    <p>
+      选择相册：
+      <select name="album">
+        <% for(var i=0; i<albums.length; i++) { %>
+        <option value="<%= albums[i] %>"><%= albums[i] %></option>
+        <% } %>
+      </select>
+    </p>
+    <p>
+      图片：
+      <input type="file" name="tupian">
+    </p>
+    <p>
+      <input type="submit" value="上传">
+    </p>
+  </form>
+</body>
+</html>
