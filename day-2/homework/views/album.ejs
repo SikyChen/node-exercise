@@ -5,17 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>相册<%= name %></title>
+  <style>
+    ul:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+    li {
+      float: left;
+      width: 200px;
+      margin: 0 20px 20px 0;
+    }
+    img {
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-  
-    <ul>
-        <% for(var i=0; i<photos.length; i++) { %>
-        <li>
-          <img src="<%= photos[i].src %>">
-          <br>
-          <%= photos[i].name %>
-        </li>
-        <% } %>
-      </ul>
+  <a href="/">返回</a>
+  <ul>
+    <% for(var i=0; i<photos.length; i++) { %>
+    <li>
+      <img src="<%= photos[i].src %>">
+      <br>
+      <%= photos[i].name %>
+    </li>
+    <% } %>
+  </ul>
 </body>
 </html>
