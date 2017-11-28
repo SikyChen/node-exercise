@@ -11,4 +11,4 @@ http.createServer((req, res) => {
   }else {
     router.show404(req, res)
   }
-})
+}).listen(8080)
