@@ -96,8 +96,9 @@ let server = http.createServer((req, res) => {
         if(err) {
           throw Error('改名失败！')
         }
-        res.writeHead(200, {'content-type': 'text/plain; charset=utf-8'});
-        res.end('上传图片成功！');
+        res.writeHead(200, {'content-type': 'text/html; charset=utf-8'});
+        res.write('上传图片成功！<br>');
+        res.end('<a href="/admin">点击返回</a>')
       })
     });
     return
