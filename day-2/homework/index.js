@@ -104,7 +104,7 @@ let server = http.createServer((req, res) => {
     return
   }
 
-  // 进入 相册
+  // 进入 相册列表
   if(req.url == '/') {
     fs.readFile(__dirname + '/views/albumlist.ejs', (err, data) => {
       if(err) {
@@ -132,6 +132,7 @@ let server = http.createServer((req, res) => {
     return
   }
 
+  // 进入 相册
   if(req.url.substr(0,8) == '/albums/') {
     // 检验是否有对应相册
     fs.readdir(__dirname + '/uploads', (err, files) => {
