@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>新建相册</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <style>
+    form{
+      width: 90%;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+      <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">空间相册</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/">相册列表</a></li>
+          <li><a href="/admin">上传图片</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <form action="/createAlbum" method="post">
+    <% if(error != 0) { %>
+    <div class="form-group has-error">
+    <% }else { %>
+    <div class="form-group">
+    <% } %>
+      <label>相册名称</label>
+      <input type="text" class="form-control" name="albumName" placeholder="请输入相册名称">
+      <% if(error == 1) { %>
+      <p class="help-block">请输入相册名称</p>
+      <% } %>
+      <% if(error == 2) { %>
+      <p class="help-block">相册名称已存在</p>
+      <% } %>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+
+  <script src="/js/jquery-1.11.3.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+</body>
+</html>
