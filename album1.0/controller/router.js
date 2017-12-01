@@ -7,7 +7,30 @@ const file = require('../models/file.js')
 
 
 exports.showIndex = (req, res, next) => {
-  res.render('index')
+  file.getAllAlbums((err, allAlbums) => {
+    if(err) {
+      console.log(err)
+      next()
+      return
+    }
+    res.render('index', {
+      allAlbums: allAlbums
+    })
+  })
+}
+
+exports.showAlbum = (req, res, next) => {
+  file.getAlbumImages(req.params.albumName, (err, images) => {
+    if(err) {
+      console.log(err)
+      next()
+      return
+    }
+    res.render('album', {
+      albumName: req.params.albumName
+      ,images: images
+    })
+  })
 }
 
 exports.showAdmin = (req, res, next) => {
@@ -65,7 +88,7 @@ exports.createAlbum = (req, res, next) => {
           res.send('创建文件夹失败')
           return
         }else {
-          res.send('创建成功..<br><a href="/admin">点击返回</a>')
+          // res.send('创建成功..<br><a href="/admin">点击返回</a>')
           res.render('createAlbum', {
             error: 0  // 相册名为空
             ,status: 1  // 创建成功
@@ -88,6 +111,29 @@ exports.upImage = (req, res, next) => {
     if(err) {
       consle.log('上传图片失败！')
       next()
+      return
+    }
+    if(files.upImage.size > 500*1000) {
+      fs.unlink(files.upImage.path, err => {
+        if(err) {
+          console.log('删除文件失败！')
+          next()
+          return
+        }
+        consle.log('删除成功！')
+      })
+      file.getAllAlbums((err, allAlbums) => {
+        if(err) {
+          console.log(err)
+          next()
+          return
+        }
+        res.render('admin', {
+          allAlbums: allAlbums
+          ,status: 3
+        })
+        console.log('图片过大！')
+      })
       return
     }
     if(fields.albumName == '') {

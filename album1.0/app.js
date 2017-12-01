@@ -12,8 +12,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs')
 
 app.use(express.static('./public'))
+app.use(express.static("./uploads"));
 
+// 进入首页 相册列表
 app.get('/', router.showIndex)
+// 进入相册 图片列表
+app.get('/album/:albumName', router.showAlbum)
+
+// 进入管理界面 上传图片
 app.get('/admin', router.showAdmin)
 
 // 上传图片

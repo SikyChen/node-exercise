@@ -11,6 +11,11 @@
       width: 90%;
       margin: 0 auto;
     }
+    .alert{
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
   </style>
 </head>
 <body>
@@ -35,6 +40,10 @@
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
+  
+  <% if(status == 1) { %>
+  <div class="alert alert-success" role="alert">相册创建成功！</div>
+  <% } %>
 
   <form action="/createAlbum" method="post">
     <% if(error != 0) { %>

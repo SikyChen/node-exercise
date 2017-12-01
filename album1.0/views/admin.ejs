@@ -48,6 +48,9 @@
   <% if(status == 2) { %>
   <div class="alert alert-danger" role="alert">图片上传失败！</div>
   <% } %>
+  <% if(status == 3) { %>
+  <div class="alert alert-danger" role="alert">图片太大，不应超过2M！</div>
+  <% } %>
 
   <form class="up-form" action="/upimage" method="post" enctype="multipart/form-data">
     <div class="form-group">
