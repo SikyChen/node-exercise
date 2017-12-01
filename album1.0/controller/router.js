@@ -120,7 +120,7 @@ exports.upImage = (req, res, next) => {
           next()
           return
         }
-        consle.log('删除成功！')
+        console.log('删除成功！')
       })
       file.getAllAlbums((err, allAlbums) => {
         if(err) {
