@@ -59,7 +59,7 @@ app.get('/submit', (req, res) => {
         console.log('数据库写入失败')
         return
       }
-      res.send('数据写入成功，<a href="/">点击返回</a>')
+      res.send('<p>数据写入成功，<a href="/">点击返回</a></p>')
       db.close()
       console.log('数据库已关闭')
     })
