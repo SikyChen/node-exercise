@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>index</title>
+</head>
+<body>
+  <h1>学生管理系统</h1>
+  <a href="/add">添加学生</a>
+  <table>
+    <tr>
+      <th>姓名</th>
+      <th>年龄</th>
+      <th>数学分数</th>
+      <th>语文分数</th>
+    </tr>
+    <% for(let i=0; i < data.length; i++) { %>
+    <tr>
+      <td><%= data[i].name || '无' %></td>
+      <td><%= data[i].age || '无' %></td>
+      <td><%= data[i].score.yuwen || '无' %></td>
+      <td><%= data[i].score.shuxue || '无' %></td>
+    </tr>
+    <% } %>
+  </table>
+</body>
+</html>
