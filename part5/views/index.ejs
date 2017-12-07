@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>留言本</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <style>
+    #app {
+      padding: 0 20px;
+    }
+    h3 {
+      text-align: center
+    }
+    .text-success, .text-danger {
+      display: none;
+    }
+    .list-group{
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <h3>留言本</h3>
+
+  <form>
+    <div class="form-group">
+      <label>User Name</label>
+      <input type="text" class="form-control" id="username">
+    </div>
+    <div class="form-group">
+      <label>content</label>
+      <textarea class="form-control" id="content"></textarea>
+    </div>
+    <button @click="$doSubmit" type="button" class="btn btn-success">保存</button>
+    <span class="text-success">留言保存成功</span>
+    <span class="text-danger">留言保存失败</span>
+  </form>
+
+  <nav v-if="pages" aria-label="Page navigation">
+    <ul class="pagination">
+      <li @click="$clickPage('Previous')">
+        <a href="javascript:;" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <template v-for="i in pages">
+        <li :class="{'active': i == page}" @click="$clickPage(i)"><a href="javascript:;">{{i}}</a></li>
+      </template>
+      <li  @click="$clickPage('Next')">
+        <a href="javascript:;" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  
+  <div class="list-group">
+    <div class="list-group-item" v-for="content in contentList">
+      <p class="list-group-item-text">
+        昵称：{{content.username}}
+      </p>
+      <p class="list-group-item-text">
+        内容：{{content.content}}
+      </p>
+      <p class="list-group-item-text">
+        时间：{{content.createTime}}
+        <a href="javascript:;" @click="$delete(content)">删除</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/vue.js"></script>
+<script>
+var app = new Vue({
+  el: '#app',
+  data: {
+    contentList: []
+    ,page: 1
+    ,pageSize: 8
+    ,total: 0
+    ,pages: 0
+  },
+  created() {
+    this.getMsg()
+  },
+  methods: {
+    $doSubmit() {
+      // 提交留言
+      $('.text-success').hide()
+      $('.text-danger').hide()
+
+      let _this = this
+      $.post('/api/submit',
+        {
+          username: $('#username').val(),
+          content: $('#content').val()
+        },
+        function(result) {
+          if(result.status != 1) {
+            $('.text-danger').show()
+          }
+          $('#username').val('')
+          $('#content').val('')
+          $('.text-success').show()
+          _this.page = 1
+          _this.getMsg()
+        }
+      )
+    },
+    $clickPage(i){
+      if(i == this.page) {return}
+      if(i == 'Previous') {
+        if(this.page == 1) {return}
+        this.page--
+      }else if(i == 'Next') {
+        if(this.page == this.pages) {return}
+        this.page++
+      }else {
+        this.page = i
+      }
+      this.getMsg()
+    },
+    $delete(content) {
+      let _this = this
+      let params = {
+        timeStamp: content.timeStamp
+      }
+      $.get('api/delete', params, function(result) {
+        if(result.status != 1) {
+          alert('删除数据失败'); return
+        }
+        _this.getMsg()
+      })
+    },
+    getMsg() {
+      let _this = this
+      let params = {
+        page: this.page
+        ,pageSize: this.pageSize
+      }
+      $.get('api/getMsg', params, function(result) {
+        if(result.status != 1) {
+          alert('获取数据失败'); return
+        }
+        _this.contentList = result.data
+        _this.page = result.page,
+        _this.pageSize = result.pageSize
+        _this.pages = result.pages
+      })
+    }
+  }
+})
+</script>
+</body>
+</html>
