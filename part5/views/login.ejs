@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>login</title>
+  <style>
+    .success {
+      display: none;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <p>
+    账号：<input type="text" id="username">
+  </p>
+  <p>
+    密码：<input type="password" id="password">
+  </p>
+  <p>
+    <button id="doLogin">登录</button>
+  </p>
+  <p class="success">登录成功，点击<a href="/">返回</a></p>
+
+  <script src="/js/jquery-1.11.3.min.js"></script>
+  <script>
+    $('#doLogin').click(function() {
+      $.post('api/doLogin', {
+        username: $('#username').val(),
+        password: $('#password').val()
+      },function(result) {
+        if(result.status != 1) {
+          alert(result.msg)
+          return
+        }
+        $('.success').show()
+      })
+    })
+  </script>
+</body>
+</html>
