@@ -1,7 +1,7 @@
 const crypto = require('crypto')
 
-console.log("123456")
-console.log(md5("123456"))
+console.log("123456a")
+console.log(md5("123456a"))
 
 function md5(str) {
   let md5 = crypto.createHash('md5')
