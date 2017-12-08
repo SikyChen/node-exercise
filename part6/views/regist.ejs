@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>regist</title>
+  <style>
+    h3 {
+      background: cornflowerblue;
+    }
+  </style>
+</head>
+<body>
+  <h3>注册页面</h3>
+  <p>
+    账号：
+    <input type="text" id="username">
+  </p>
+  <p>
+    密码：
+    <input type="password" id="password">
+  </p>
+  <p>
+    <button id="doRegist">注册</button>
+  </p>
+  <p>
+    已有账号？点击<a href="/login">登录</a>
+  </p>
+
+  <script src="/jquery-1.11.3.min.js"></script>
+  <script>
+    $('#password').keyup(function(event) {
+      if(event.which == 13) {
+        $('#doRegist').click()
+      }
+    })
+    $('#doRegist').click(function() {
+      var username = $('#username').val()
+      var password = $('#password').val()
+      if(!username || !password) {
+        return
+      }
+      $.post('api/doRegist', {
+        username: username
+        ,password: password
+      }, function(result) {
+        if(result.status != 1) {
+          alert('注册失败！' + result.msg)
+        }else {
+          alert('注册成功！')
+        }
+      })
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>login</title>
+  <style>
+    h3 {
+      background: chocolate;
+    }
+  </style>
+</head>
+<body>
+  <h3>登录页面</h3>
+  <p>
+    账号：
+    <input type="text" id="username">
+  </p>
+  <p>
+    密码：
+    <input type="password" id="password">
+  </p>
+  <p>
+    <button id="doLogin">登录</button>
+  </p>
+  <p>
+    没有账号？点击<a href="/regist">注册</a>
+  </p>
+  
+  <script src="/jquery-1.11.3.min.js"></script>
+  <script>
+    $('#password').keyup(function(event) {
+      if(event.which == 13) {
+        $('#doLogin').click()
+      }
+    })
+    $('#doLogin').click(function() {
+      var username = $('#username').val()
+      var password = $('#password').val()
+      if(!username || !password) {
+        return
+      }
+      $.post('api/doLogin', {
+        username: username
+        ,password: password
+      }, function(result) {
+        if(result.status != 1) {
+          alert('登录失败！' + result.msg)
+        }else {
+          alert('登录成功！')
+          location.href = '/'
+        }
+      })
+    })
+  </script>
+</body>
+</html>
