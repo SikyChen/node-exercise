@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>student list</title>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      width: 100px;
+      height: 40px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>student list</h2>
+  <p><a href="/add">添加学生</a></p>
+  <table>
+    <tr>
+      <th>学号</th>
+      <th>姓名</th>
+      <th>年龄</th>
+      <th>性别</th>
+      <th>课程</th>
+    </tr>
+    <% for(var i=0; i<students.length; i++) { %>
+    <tr>
+      <td><%= students[i].sid %></td>
+      <td><%= students[i].name %></td>
+      <td><%= students[i].age %></td>
+      <td>
+        <% if(students[i].sex == 'm') { %>
+          男
+        <% }else if(students[i].sex == 'f') { %>
+          女
+        <% } %>
+      </td>
+      <td><%= students[i].lessons %></td>
+    </tr>
+    <% } %>
+  </table>
+</body>
+</html>

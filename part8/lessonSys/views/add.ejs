@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>add student</title>
+</head>
+<body>
+  <h2>添加学生</h2>
+  <p><a href="/">返回首页</a></p>
+  <form action="/doAdd" method="post">
+    <p>
+      学号：<input type="text" name="sid">
+    </p>
+    <p>
+      姓名：<input type="text" name="name">
+    </p>
+    <p>
+      年龄：<input type="number" name="age">
+    </p>
+    <p>
+      性别：
+      <input type="radio" name="sex" value="m"> 男
+      <input type="radio" name="sex" value="f"> 女
+    </p>
+    <p>
+      课程：
+      <input type="checkbox" name="lessons" value="a01"> 语文
+      <input type="checkbox" name="lessons" value="a02"> 数学
+      <input type="checkbox" name="lessons" value="a03"> 英语
+    </p>
+    <p>
+      <input type="submit" value="添加">
+    </p>
+  </form>
+</body>
+</html>
