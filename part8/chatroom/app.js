@@ -67,5 +67,7 @@ io.on('connection', function(socket) {
   })
 })
 
+// express + socket 的情况下
+// 监听不用 app.listen(port)，而是用 server.listen(port)
 server.listen(8080)
 console.log('server created..')
