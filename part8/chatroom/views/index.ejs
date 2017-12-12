@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>聊天室 - 登录</title>
+  <style>
+    div {
+      border: 1px solid #333;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>请登录</h2>
+  <div>
+    请输入昵称：
+    <input type="text" id="name">
+    <button id="btn">登录</button>
+  </div>
+
+  <script src="/js/jquery-1.11.3.min.js"></script>
+  <script>
+    $('#btn').click(function() {
+      $.post('/login', {name: $('#name').val()}, function(result) {
+        if(result.status != 1) {
+          alert('登陆失败：' + result.msg)
+          return
+        }
+        window.location.href = '/chat'
+      })
+    })
+  </script>
+</body>
+</html>

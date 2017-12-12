@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>聊天室</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      position: relative;
+      margin: 0;
+      padding: 0 4%;
+    }
+    h2 {
+      margin: 0;
+      padding: 10px 0;
+    }
+    article {
+      position: absolute;
+      width: 90%;
+      top: 60px;
+      bottom: 250px;
+      border: 1px solid #333;
+      overflow: auto;
+    }
+    footer {
+      position: absolute;
+      bottom: 10px;
+      height: 200px;
+      width: 90%;
+    }
+    ul, li {
+      list-style: none;
+      padding: 0
+    }
+    li {
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid skyblue;
+    }
+  </style>
+</head>
+<body>
+  <h2>聊天室 - 欢迎<span id="name"><%= name %></span></h2>
+  <article>
+    <ul class="list">
+    </ul>
+  </article>
+  <footer>
+    <div class="form-group">
+      <label for="message">message</label>
+      <input type="text" class="form-control" id="message" placeholder="message">
+    </div>
+  </footer>
+  
+  <script src="/js/jquery-1.11.3.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io()
+    $('#message').keydown(function(e) {
+      if(e.keyCode != 13 || !$(this).val()) {
+        return
+      }
+      socket.emit('send', {
+        name: $('#name').html(),
+        msg: $(this).val()
+      })
+      $(this).val('')
+    })
+
+    socket.on('reSend', function(result) {
+      $('.list').prepend(`
+        <li>
+          <p>${result.name}:</p>
+          <span>${result.msg}</span>
+        </li>
+      `)
+    })
+  </script>
+</body>
+</html>
