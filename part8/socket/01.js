@@ -30,7 +30,7 @@ io.on('connection', socket => {
   socket.on('sayHiToEveryone', result => {
     console.log('>> sayHiToEveryone: ', result.msg)
     // 广播
-    io.emit('broadcast', {msg: '有人对大家说：' + result.msg + new Date})
+    io.emit('broadcast', {msg: new Date() + ' 有人对大家说：' + result.msg})
   })
 })
 
