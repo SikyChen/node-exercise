@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>index</title>
+</head>
+<body>
+  <h2>index页面</h2>
+  <button id="btn">发送</button>
+  <button id="btn2">对大家说：给我点饭吃吧</button>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // 引入 socket.io.js 文件，并执行 io()，则与服务端发生了握手
+    var socket = io()
+    
+    document.querySelector('#btn').onclick = function() {
+      // 触发 hi 事件，并传送数据
+      socket.emit('hi', {msg: '早上好'})
+    }
+
+    document.querySelector('#btn2').onclick = function() {
+      // 触发 hi 事件，并传送数据
+      socket.emit('sayHiToEveryone', {msg: '给我点饭吃吧'})
+    }
+
+    // 监听 rehi 事件，并接受 result 数据
+    socket.on('rehi', result => {
+      console.log('rehi: ', result.msg)
+    })
+
+    // 监听 rehi 事件，并接受 result 数据
+    socket.on('broadcast', result => {
+      console.log('broadcast: ', result.msg)
+    })
+  </script>
+</body>
+</html>

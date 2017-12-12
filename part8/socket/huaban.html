@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>画板</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="1200" height="800"></canvas>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io()
+    var canvas = document.querySelector('#canvas')
+    var cxt = canvas.getContext('2d')
+
+    var myColor = 'skyblue'
+
+    canvas.onmousedown = function() {
+      canvas.addEventListener('mousemove', handler, true)
+    }
+
+    canvas.onmouseup = function() {
+      canvas.removeEventListener('mousemove', handler, true)
+    }
+
+    function handler(e) {
+      cxt.fillStyle = myColor
+      cxt.beginPath()
+      cxt.arc(e.pageX, e.pageY, 5, 0, Math.PI*2)
+      cxt.closePath();
+      cxt.fill()
+
+      socket.emit('draw', {x: e.pageX, y: e.pageY})
+    }
+
+    socket.on('beDraw', function(result) {
+      cxt.beginPath()
+      cxt.arc(result.x, result.y, 5, 0, Math.PI*2)
+      cxt.fillStyle = myColor
+      cxt.fill()
+    })
+  </script>
+</body>
+</html>
