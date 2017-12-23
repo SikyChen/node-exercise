@@ -15,23 +15,21 @@
       margin: 0;
       padding: 0 4%;
     }
-    h2 {
-      margin: 0;
-      padding: 10px 0;
-    }
     article {
       position: absolute;
-      width: 90%;
-      top: 60px;
-      bottom: 250px;
+      left: 4%;
+      right: 4%;
+      top: 30px;
+      bottom: 70px;
       border: 1px solid #333;
       overflow: auto;
     }
     footer {
       position: absolute;
+      left: 4%;
+      right: 4%;
       bottom: 10px;
-      height: 200px;
-      width: 90%;
+      height: 40px;
     }
     ul, li {
       list-style: none;
@@ -40,20 +38,22 @@
     li {
       margin: 10px;
       padding: 10px;
-      border: 1px solid skyblue;
+      border: 1px solid goldenrod;
     }
   </style>
 </head>
 <body>
-  <h2>聊天室 - 欢迎<span id="name"><%= name %></span></h2>
+  <span style="line-height:30px">聊天室 - 欢迎<span id="name"><%= name %></span></span>
   <article>
     <ul class="list">
     </ul>
   </article>
   <footer>
-    <div class="form-group">
-      <label for="message">message</label>
-      <input type="text" class="form-control" id="message" placeholder="message">
+    <div class="row" style="margin-right:0">
+      <div class="col-md-10 col-xs-9">
+        <input type="text" class="form-control" id="message" placeholder="message">
+      </div>
+      <button id="send" class="btn btn-primary col-md-2 col-xs-3">发送</button>
     </div>
   </footer>
   
@@ -72,14 +72,28 @@
       })
       $(this).val('')
     })
+    $('#send').click(function(e) {
+      socket.emit('send', {
+        name: $('#name').html(),
+        msg: $('#message').val()
+      })
+      $('#message').val('')
+    })
 
     socket.on('reSend', function(result) {
-      $('.list').prepend(`
-        <li>
-          <p>${result.name}:</p>
-          <span>${result.msg}</span>
-        </li>
-      `)
+      var html = '';
+      if($('#name').html() == result.name) {
+        html = '<li style="border-color: skyblue">'
+      }else {
+        html = '<li>'
+      }
+      html += `
+            <p>${result.name}:</p>
+            <span>${result.msg}</span>
+          </li>
+      `
+      $('.list').append(html)
+      $('article').scrollTop( $('.list').height() - $('article').height() + 20 ) 
     })
   </script>
 </body>
